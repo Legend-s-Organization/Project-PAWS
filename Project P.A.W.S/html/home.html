@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NU Project PAWS - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Master stylesheet -->
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- Header -->
+      <header>
+        <div class="header-container">
+          <div class="header-left">
+            <a href="home.html">
+              <img id="logo-header" src="../images/nu_logo.png" alt="NU Logo" />
+            </a>
+            <span class="school-name">NU EAST ORTIGAS</span>
+          </div>
+          <div class="header-right">Welcome to P.A.W.S</div>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <main class="page-content">
+        <section class="hero">
+          <div class="hero-slideshow">
+            <div
+              class="hero-slide"
+              style="
+                background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.5),
+                    rgba(0, 0, 0, 0.5)
+                  )
+                  url(&quot;../images/bg_img.png&quot;);
+              "
+            ></div>
+            <div
+              class="hero-slide"
+              style="
+                background-image: url(&quot;../images/nueastortigas_bg.png&quot;);
+              "
+            ></div>
+            <div
+              class="hero-slide"
+              style="
+                background-image: url(&quot;../images/nueofamily_bg.png&quot;);
+              "
+            ></div>
+          </div>
+          <div class="hero-content">
+            <h1>Project PAWS</h1>
+            <p>
+              A centralized online platform for Nationalians that simplifies
+              processing school permits, appointments, waivers, and official
+              sheets.
+            </p>
+          </div>
+          <!-- Manual controls -->
+          <div class="hero-controls">
+            <button class="hero-btn" data-slide="0"></button>
+            <button class="hero-btn" data-slide="1"></button>
+            <button class="hero-btn" data-slide="2"></button>
+          </div>
+        </section>
+
+        <!-- Services -->
+        <section class="services">
+          <h2>Services</h2>
+          <div class="service-cards" role="list">
+            <div
+              class="card"
+              role="group"
+              aria-label="Permits — Process permits quickly and securely"
+            >
+              <div class="icon" aria-hidden="true">📄</div>
+              <div class="card-title">Permits</div>
+            </div>
+
+            <div
+              class="card"
+              role="group"
+              aria-label="Appointments — Book appointments with school offices and advisors"
+            >
+              <div class="icon" aria-hidden="true">📅</div>
+              <div class="card-title">Appointments</div>
+            </div>
+
+            <div
+              class="card"
+              role="group"
+              aria-label="Waivers — Submit and track waiver forms online"
+            >
+              <div class="icon" aria-hidden="true">📋</div>
+              <div class="card-title">Waivers</div>
+            </div>
+
+            <div
+              class="card"
+              role="group"
+              aria-label="Official Sheets — Request official sheets and documents"
+            >
+              <div class="icon" aria-hidden="true">🧾</div>
+              <div class="card-title">Official Sheets</div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-container">
+          <div class="footer-left">
+            <img id="logo-footer" src="../images/nu_logo.png" alt="NU Logo" />
+            <span class="school-name">NU EAST ORTIGAS</span>
+          </div>
+          <div class="footer-center">
+            <div class="footer-top">
+              🛈 ABOUT NU ONLINE SERVICES <br />
+              All Rights Reserved © 2026 National University
+            </div>
+            <hr class="footer-divider" />
+            <div class="footer-bottom">
+              NU Online Services is a portal of all online applications National
+              University offers.
+            </div>
+          </div>
+          <div class="footer-right">
+            <h4>Follow Us</h4>
+            <p>FB | IG | TW</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Logout -->
+    <button id="logoutBtn">Logout</button>
+    <script src="../javascript/index.js"></script>
+  </body>
+</html>

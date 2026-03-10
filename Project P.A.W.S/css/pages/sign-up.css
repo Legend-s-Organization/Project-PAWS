@@ -1,0 +1,114 @@
+/**********************************************************
+ * NU PROJECT PAWS - SIGN UP PAGE STYLES
+ **********************************************************/
+
+/* ===========================
+   1. Page Background & Layout
+   =========================== */
+body.login-body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;   /* centers horizontally */
+  align-items: center;       /* centers vertically */
+  background:
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../../images/bg_img.png");
+  background-size: cover;
+  background-position: center;
+  padding: 40px;             /* equal spacing top & bottom */
+  box-sizing: border-box;
+}
+
+/* ===========================
+   2. Container & Card
+   =========================== */
+.login-container { 
+  width: 100%; 
+  display: flex; 
+  justify-content: center; 
+}
+
+.login-card { 
+  max-width: 400px; 
+  width: 90%; 
+  padding: 30px; 
+  background: rgba(255,255,255,0.95); 
+  border-radius: 15px; 
+  text-align: center; 
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+}
+
+/* ===========================
+   3. Logo & Headings
+   =========================== */
+.login-logo { 
+  width: 80px; 
+  margin-bottom: 15px; 
+}
+
+.login-card h2 { 
+  color: #002b5c; 
+  margin-bottom: 10px; 
+}
+
+.login-card p { 
+  color: #555; 
+  margin-bottom: 20px; 
+}
+
+/* ===========================
+   4. Input Fields
+   =========================== */
+#signupForm input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* ===========================
+   5. Buttons
+   =========================== */
+#signupForm button {
+  width: 100%;
+  padding: 12px;
+  background: #34418e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#signupForm button:hover {
+  background: #222d6b;
+}
+
+/* ===========================
+   6. Messages
+   =========================== */
+#signupError {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 5px;
+  text-align: left;
+}
+
+#signupSuccess {
+  color: green;
+  font-size: 0.85em;
+  margin-top: 5px;
+  text-align: left;
+}
+
+/* ===========================
+   7. Links
+   =========================== */
+.forgot { 
+  display: block; 
+  margin-top: 15px; 
+  font-size: 14px; 
+  color: #002b5c; 
+  text-decoration: none; 
+}

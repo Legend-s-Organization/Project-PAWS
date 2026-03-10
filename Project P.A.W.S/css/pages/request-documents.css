@@ -1,0 +1,9 @@
+/**********************************************************
+ * REQUEST DOCUMENTS PAGE
+ **********************************************************/
+.card#good-moral p,
+.card#tor p,
+.card#enrollment p {
+  font-size: 15px;
+  color: #333;
+}

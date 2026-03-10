@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NU Project PAWS - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Master stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-container">
+      <div class="login-card">
+        <img src="images/nu_logo.png" class="login-logo" alt="NU Logo" />
+        <h2>NU Project PAWS</h2>
+        <p>Please log in to continue</p>
+
+        <form id="loginForm">
+          <input type="text" id="username" placeholder="Student ID" required />
+
+          <div class="password-box">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+            <span id="togglePassword">👁</span>
+          </div>
+
+          <button type="submit">Log In</button>
+          <p class="error" id="errorMsg"></p>
+        </form>
+
+        <!-- New Sign Up Button -->
+        <button id="signupBtn" class="secondary-btn">Sign Up</button>
+
+        <a href="#" class="forgot">Forgot Password?</a>
+      </div>
+    </div>
+
+    <script src="javascript/index.js"></script>
+  </body>
+</html>
