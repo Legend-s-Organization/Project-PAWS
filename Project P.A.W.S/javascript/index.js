@@ -11,7 +11,11 @@ function inHtmlFolder() {
 function getPageBase() {
   return inHtmlFolder() ? "" : "html/";
 }
+function getIndexPath() {
+  return inHtmlFolder() ? "../index.html" : "index.html";
+}
 const pageBase = getPageBase();
+const indexPath = getIndexPath();
 
 /* ========================================================
    DEMO ACCOUNT
@@ -139,7 +143,7 @@ if (signupForm) {
     signupSuccess.textContent = "Account created successfully! Redirecting...";
 
     setTimeout(() => {
-      window.location.href = "/index.html";
+      window.location.href = indexPath;
     }, 1200);
   });
 }
@@ -156,7 +160,7 @@ const protectedPages = [
 ];
 if (protectedPages.some((p) => window.location.pathname.includes(p))) {
   if (localStorage.getItem("isLoggedIn") !== "true") {
-    window.location.href = "/index.html";
+    window.location.href = indexPath;
   }
 }
 
@@ -182,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("currentUser");
-      window.location.href = "/index.html";
+      window.location.href = indexPath;
     });
   }
 });
