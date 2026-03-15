@@ -29,7 +29,51 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -280px; /* Hidden by default */
+  width: 280px;
+  height: 100%;
+  background-color: #34418e;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+.side-menu.active {
+  left: 0;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.menu-overlay.active {
+  display: block;
 }
 
 #logo-header {
@@ -118,7 +162,7 @@ header {
 footer {
   background-color: #34418e;
   color: white;
-  padding: 30px 20px;
+  padding: 15px 20px;
 }
 
 .footer-container {

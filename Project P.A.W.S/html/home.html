@@ -9,32 +9,45 @@
   </head>
   <body>
     <div class="page-wrapper">
+      <!-- Side Menu (Empty) -->
+      <div id="sideMenu" class="side-menu"></div>
+      <div id="menuOverlay" class="menu-overlay"></div>
+
       <!-- Header -->
       <header>
         <div class="header-container">
           <div class="header-left">
+            <button id="menuToggle" class="menu-toggle">☰</button>
             <a href="home.html">
               <img id="logo-header" src="../images/nu_logo.png" alt="NU Logo" />
             </a>
             <span class="school-name">NU EAST ORTIGAS</span>
           </div>
-          <div class="header-right">Welcome to P.A.W.S</div>
+          <div class="header-right">
+            <button
+              id="logoutBtn"
+              style="
+                background: none;
+                border: 1px solid white;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 
-      <!-- Hero -->
+      <!-- Page Content -->
       <main class="page-content">
         <section class="hero">
           <div class="hero-slideshow">
             <div
-              class="hero-slide"
-              style="
-                background-image: linear-gradient(
-                    rgba(0, 0, 0, 0.5),
-                    rgba(0, 0, 0, 0.5)
-                  )
-                  url(&quot;../images/bg_img.png&quot;);
-              "
+              class="hero-slide active"
+              style="background-image: url(&quot;../images/bg_img.png&quot;)"
             ></div>
             <div
               class="hero-slide"
@@ -50,60 +63,29 @@
             ></div>
           </div>
           <div class="hero-content">
-            <h1>Project PAWS</h1>
+            <h1>FMO Service Portal</h1>
             <p>
-              A centralized online platform for Nationalians that simplifies
-              processing school permits, appointments, waivers, and official
-              sheets.
+              The official Facilities Management Office platform for
+              Nationalians. Streamlining your school permit and facility
+              requests.
             </p>
           </div>
           <!-- Manual controls -->
           <div class="hero-controls">
-            <button class="hero-btn" data-slide="0"></button>
+            <button class="hero-btn active" data-slide="0"></button>
             <button class="hero-btn" data-slide="1"></button>
             <button class="hero-btn" data-slide="2"></button>
           </div>
         </section>
 
-        <!-- Services -->
         <section class="services">
-          <h2>Services</h2>
-          <div class="service-cards" role="list">
-            <div
-              class="card"
-              role="group"
-              aria-label="Permits — Process permits quickly and securely"
-            >
-              <div class="icon" aria-hidden="true">📄</div>
-              <div class="card-title">Permits</div>
+          <div class="service-cards">
+            <!-- Permit Card -->
+            <div class="card">
+              <div class="icon">📄</div>
+              <p class="card-title">Permits</p>
             </div>
-
-            <div
-              class="card"
-              role="group"
-              aria-label="Appointments — Book appointments with school offices and advisors"
-            >
-              <div class="icon" aria-hidden="true">📅</div>
-              <div class="card-title">Appointments</div>
-            </div>
-
-            <div
-              class="card"
-              role="group"
-              aria-label="Waivers — Submit and track waiver forms online"
-            >
-              <div class="icon" aria-hidden="true">📋</div>
-              <div class="card-title">Waivers</div>
-            </div>
-
-            <div
-              class="card"
-              role="group"
-              aria-label="Official Sheets — Request official sheets and documents"
-            >
-              <div class="icon" aria-hidden="true">🧾</div>
-              <div class="card-title">Official Sheets</div>
-            </div>
+            <!-- Additional cards can be added here -->
           </div>
         </section>
       </main>
@@ -133,9 +115,6 @@
         </div>
       </footer>
     </div>
-
-    <!-- Logout -->
-    <button id="logoutBtn">Logout</button>
     <script src="../javascript/index.js"></script>
   </body>
 </html>

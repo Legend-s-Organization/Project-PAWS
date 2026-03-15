@@ -151,13 +151,7 @@ if (signupForm) {
 /* ========================================================
    PAGE PROTECTION
 ======================================================== */
-const protectedPages = [
-  "home.html",
-  "registrar.html",
-  "request-documents.html",
-  "permits.html",
-  "appointments.html",
-];
+const protectedPages = ["home.html", "permits.html"];
 if (protectedPages.some((p) => window.location.pathname.includes(p))) {
   if (localStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = indexPath;
@@ -202,11 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (text === "Permits") {
       card.parentElement.addEventListener("click", () => {
         window.location.href = pageBase + "permits.html";
-      });
-    }
-    if (text === "Appointments") {
-      card.parentElement.addEventListener("click", () => {
-        window.location.href = pageBase + "appointments.html";
       });
     }
   });
@@ -259,41 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ========================================================
-   APPOINTMENT FORM HANDLING (appointments.html)
-======================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-  const guidanceForm = document.getElementById("guidanceForm");
-
-  if (guidanceForm) {
-    guidanceForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const requestForm = document.getElementById("requestForm").value.trim();
-      const studentId = document.getElementById("studentId").value.trim();
-      const contact = document.getElementById("contact").value.trim();
-      const reason = document.getElementById("reason").value;
-      const preferredDate = document.getElementById("preferredDate").value;
-      const preferredTime = document.getElementById("preferredTime").value;
-
-      if (
-        !requestForm ||
-        !studentId ||
-        !contact ||
-        !reason ||
-        !preferredDate ||
-        !preferredTime
-      ) {
-        alert("Please complete all required fields before submitting.");
-        return;
-      }
-
-      alert("Guidance Office Appointment request submitted successfully! ✅");
-      guidanceForm.reset();
-    });
-  }
-});
-
-/* ========================================================
    BACK BUTTON HANDLING
 ======================================================== */
 document.addEventListener("DOMContentLoaded", () => {
@@ -302,6 +256,56 @@ document.addEventListener("DOMContentLoaded", () => {
     backBtn.addEventListener("click", () => {
       // Go back to the previous page in browser history
       history.back();
+    });
+  }
+});
+
+/* ========================================================
+   HERO SLIDESHOW
+======================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll(".hero-slide");
+  const btns = document.querySelectorAll(".hero-btn");
+  if (slides.length > 0 && btns.length > 0) {
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((s) => s.classList.remove("active"));
+      btns.forEach((b) => b.classList.remove("active"));
+      slides[index].classList.add("active");
+      btns[index].classList.add("active");
+      currentSlide = index;
+    }
+
+    btns.forEach((btn, idx) => {
+      btn.addEventListener("click", () => showSlide(idx));
+    });
+
+    // Auto-advance
+    setInterval(() => {
+      let next = (currentSlide + 1) % slides.length;
+      showSlide(next);
+    }, 5000);
+  }
+});
+
+/* ========================================================
+   HAMBURGER MENU
+======================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const menuToggle = document.getElementById("menuToggle");
+  const sideMenu = document.getElementById("sideMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+
+  if (menuToggle && sideMenu && menuOverlay) {
+    menuToggle.addEventListener("click", () => {
+      sideMenu.classList.toggle("active");
+      menuOverlay.classList.toggle("active");
+    });
+
+    menuOverlay.addEventListener("click", () => {
+      sideMenu.classList.remove("active");
+      menuOverlay.classList.remove("active");
     });
   }
 });

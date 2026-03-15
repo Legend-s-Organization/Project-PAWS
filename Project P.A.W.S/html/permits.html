@@ -9,16 +9,35 @@
   </head>
   <body>
     <div class="page-wrapper">
+      <!-- Side Menu (Empty) -->
+      <div id="sideMenu" class="side-menu"></div>
+      <div id="menuOverlay" class="menu-overlay"></div>
+
       <!-- Header -->
       <header>
         <div class="header-container">
           <div class="header-left">
+            <button id="menuToggle" class="menu-toggle">☰</button>
             <a href="home.html">
               <img id="logo-header" src="../images/nu_logo.png" alt="NU Logo" />
             </a>
             <span class="school-name">NU EAST ORTIGAS</span>
           </div>
-          <div class="header-right">Permit Submission</div>
+          <div class="header-right">
+            <button
+              id="logoutBtn"
+              style="
+                background: none;
+                border: 1px solid white;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 
