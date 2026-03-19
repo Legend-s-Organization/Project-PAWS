@@ -22,6 +22,8 @@ const indexPath = getIndexPath();
 ======================================================== */
 const DEMO_USER = "student01";
 const DEMO_PASS = "password01";
+const ADMIN_USER = "admin01";
+const ADMIN_PASS = "adminpass01";
 
 /* ========================================================
    ACCOUNT STORAGE
@@ -30,7 +32,10 @@ function loadAccounts() {
   try {
     const raw = localStorage.getItem("accounts");
     if (!raw) {
-      const initial = [{ user: DEMO_USER, pass: DEMO_PASS }];
+      const initial = [
+        { user: DEMO_USER, pass: DEMO_PASS },
+        { user: ADMIN_USER, pass: ADMIN_PASS, isAdmin: true },
+      ];
       saveAccounts(initial);
       return initial;
     }
@@ -38,13 +43,22 @@ function loadAccounts() {
     const hasDemo = accounts.some(
       (a) => a.user === DEMO_USER && a.pass === DEMO_PASS,
     );
+    const hasAdmin = accounts.some(
+      (a) => a.user === ADMIN_USER && a.pass === ADMIN_PASS,
+    );
     if (!hasDemo) {
       accounts.unshift({ user: DEMO_USER, pass: DEMO_PASS });
-      saveAccounts(accounts);
     }
+    if (!hasAdmin) {
+      accounts.push({ user: ADMIN_USER, pass: ADMIN_PASS, isAdmin: true });
+    }
+    saveAccounts(accounts);
     return accounts;
   } catch {
-    const fallback = [{ user: DEMO_USER, pass: DEMO_PASS }];
+    const fallback = [
+      { user: DEMO_USER, pass: DEMO_PASS },
+      { user: ADMIN_USER, pass: ADMIN_PASS, isAdmin: true },
+    ];
     saveAccounts(fallback);
     return fallback;
   }
@@ -79,7 +93,10 @@ if (loginForm) {
     const enteredPass = passwordField.value;
 
     const valid = accounts.some(
-      (acc) => acc.user === enteredUser && acc.pass === enteredPass,
+      (acc) =>
+        acc.user === enteredUser &&
+        acc.pass === enteredPass &&
+        acc.isAdmin !== true,
     );
 
     if (valid) {
@@ -89,6 +106,38 @@ if (loginForm) {
       window.location.href = pageBase + "home.html";
     } else {
       errorMsg.textContent = "Invalid Student ID or Password";
+    }
+  });
+}
+
+/* ========================================================
+   ADMIN LOGIN PAGE
+======================================================== */
+const adminLoginForm = document.getElementById("adminLoginForm");
+const adminUserField = document.getElementById("adminUser");
+const adminPassField = document.getElementById("adminPass");
+const adminErrorMsg = document.getElementById("adminErrorMsg");
+
+if (adminLoginForm) {
+  adminLoginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const accounts = loadAccounts();
+    const user = adminUserField.value.trim();
+    const pass = adminPassField.value;
+
+    const admin = accounts.find(
+      (acc) => acc.user === user && acc.pass === pass && acc.isAdmin === true,
+    );
+
+    if (admin) {
+      adminErrorMsg.textContent = "";
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("isAdmin", "true");
+      localStorage.setItem("currentUser", user);
+      // Redirect to admin dashboard
+      window.location.href = "admin-home.html";
+    } else {
+      adminErrorMsg.textContent = "Invalid Admin ID or Password";
     }
   });
 }
@@ -151,12 +200,46 @@ if (signupForm) {
 /* ========================================================
    PAGE PROTECTION
 ======================================================== */
-const protectedPages = ["home.html", "permits.html"];
+const protectedPages = ["home.html", "permits.html", "profile.html"];
+const adminOnlyPages = ["admin-home.html", "admin-users.html"];
+
 if (protectedPages.some((p) => window.location.pathname.includes(p))) {
   if (localStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = indexPath;
   }
 }
+
+if (adminOnlyPages.some((p) => window.location.pathname.includes(p))) {
+  if (
+    localStorage.getItem("isLoggedIn") !== "true" ||
+    localStorage.getItem("isAdmin") !== "true"
+  ) {
+    window.location.href = indexPath;
+  }
+}
+
+/* ========================================================
+   PROFILE PAGE LOGIC
+======================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.includes("profile.html")) {
+    const profileUser = document.getElementById("profileUser");
+    const profileRole = document.getElementById("profileRole");
+    const headerHomeLink = document.getElementById("headerHomeLink");
+
+    const currentUser = localStorage.getItem("currentUser") || "Unknown";
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+    if (profileUser) profileUser.textContent = currentUser;
+    if (profileRole)
+      profileRole.textContent = isAdmin ? "Administrator" : "Student";
+
+    // Correct the header link based on role
+    if (headerHomeLink) {
+      headerHomeLink.href = isAdmin ? "admin-home.html" : "home.html";
+    }
+  }
+});
 
 /* ========================================================
    LOGIN REDIRECT IF ALREADY LOGGED IN
@@ -164,8 +247,13 @@ if (protectedPages.some((p) => window.location.pathname.includes(p))) {
 const isLoginPage =
   window.location.pathname.includes("index.html") ||
   window.location.pathname.endsWith("/");
+
 if (isLoginPage && localStorage.getItem("isLoggedIn") === "true") {
-  window.location.href = pageBase + "home.html";
+  if (localStorage.getItem("isAdmin") === "true") {
+    window.location.href = pageBase + "admin-home.html";
+  } else {
+    window.location.href = pageBase + "home.html";
+  }
 }
 
 /* ========================================================
@@ -179,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("isAdmin");
       localStorage.removeItem("currentUser");
       window.location.href = indexPath;
     });
@@ -196,6 +285,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (text === "Permits") {
       card.parentElement.addEventListener("click", () => {
         window.location.href = pageBase + "permits.html";
+      });
+    }
+    if (text === "Admin Control") {
+      card.parentElement.addEventListener("click", () => {
+        window.location.href = "admin-users.html";
       });
     }
   });
@@ -298,6 +392,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuOverlay = document.getElementById("menuOverlay");
 
   if (menuToggle && sideMenu && menuOverlay) {
+    // Populate side menu
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+    const homeLink = isAdmin ? "admin-home.html" : "home.html";
+
+    sideMenu.innerHTML = `
+      <div class="side-menu-header">
+        <h3>Menu</h3>
+      </div>
+      <ul class="side-menu-links">
+        <li><a href="${homeLink}">Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        ${isAdmin ? '<li><a href="admin-users.html">User Management</a></li>' : ""}
+        <li><a href="#" id="sideLogoutBtn">Logout</a></li>
+      </ul>
+    `;
+
+    const sideLogoutBtn = document.getElementById("sideLogoutBtn");
+    if (sideLogoutBtn) {
+      sideLogoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("isAdmin");
+        localStorage.removeItem("currentUser");
+        window.location.href = indexPath;
+      });
+    }
+
     menuToggle.addEventListener("click", () => {
       sideMenu.classList.toggle("active");
       menuOverlay.classList.toggle("active");

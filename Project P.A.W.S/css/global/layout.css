@@ -1,6 +1,17 @@
 /**********************************************************
  * GLOBAL LAYOUT: wrapper, header, footer
  **********************************************************/
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 .page-wrapper {
   min-height: 100%;
   display: flex;
@@ -15,7 +26,7 @@
 header {
   background-color: #34418e;
   color: white;
-  padding: 15px 40px;
+  padding: 10px 40px;
 }
 
 .header-container {
@@ -24,15 +35,23 @@ header {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  height: 50px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 15px;
+  height: 100%;
 }
 
-/* Hamburger Menu */
+.header-left a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Hamburger Menu Toggle */
 .menu-toggle {
   background: none;
   border: none;
@@ -42,12 +61,18 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 30px;
+  line-height: 1;
 }
 
+/* Side Menu */
 .side-menu {
   position: fixed;
   top: 0;
-  left: -280px; /* Hidden by default */
+  left: -280px;
   width: 280px;
   height: 100%;
   background-color: #34418e;
@@ -59,6 +84,41 @@ header {
 
 .side-menu.active {
   left: 0;
+}
+
+.side-menu-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.side-menu-header h3 {
+  color: white;
+  font-size: 20px;
+  margin: 0;
+}
+
+.side-menu-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu-links li {
+  margin-bottom: 15px;
+}
+
+.side-menu-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 8px 0;
+  transition: color 0.3s;
+}
+
+.side-menu-links a:hover {
+  color: #ffc107;
 }
 
 .menu-overlay {
@@ -77,16 +137,19 @@ header {
 }
 
 #logo-header {
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 .school-name {
   font-weight: bold;
+  line-height: 1;
 }
 
 .header-right {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 /* Hero Section */
@@ -203,4 +266,48 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   margin: 7px auto;
   width: 100%;
+}
+
+/* ========================================================
+   MOBILE RESPONSIVE
+======================================================== */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 20px;
+  }
+
+  .school-name {
+    font-size: 13px;
+    display: none; /* Hide on small mobile to avoid crowding */
+  }
+
+  @media (min-width: 480px) {
+    .school-name {
+      display: inline;
+    }
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .footer-left,
+  .footer-right {
+    justify-content: center;
+    text-align: center;
+    flex: none;
+    width: 100%;
+  }
+
+  .footer-center {
+    flex: none;
+    width: 100%;
+  }
+
+  .side-menu {
+    width: 80%;
+    max-width: 260px;
+  }
 }

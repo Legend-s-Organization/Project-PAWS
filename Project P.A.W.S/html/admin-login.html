@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NU Project PAWS - Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Master stylesheet -->
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-container">
+      <div class="login-card">
+        <img src="../images/nu_logo.png" class="login-logo" alt="NU Logo" />
+        <h2>Admin Panel</h2>
+        <p>Sign in with administrator credentials</p>
+
+        <form id="adminLoginForm">
+          <input type="text" id="adminUser" placeholder="Admin ID" required />
+
+          <div class="password-box">
+            <input
+              type="password"
+              id="adminPass"
+              placeholder="Admin Password"
+              required
+            />
+          </div>
+
+          <button type="submit">Admin Log In</button>
+          <p class="error" id="adminErrorMsg"></p>
+        </form>
+
+        <a href="../index.html" class="forgot">Back to Student Login</a>
+      </div>
+    </div>
+
+    <script src="../javascript/index.js"></script>
+  </body>
+</html>
