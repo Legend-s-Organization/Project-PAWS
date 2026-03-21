@@ -9,8 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const approveBtn = document.getElementById("approveBtn");
   const rejectBtn = document.getElementById("rejectBtn");
   const closeViewBtn = document.getElementById("closeViewBtn");
+  const studentSearch = document.getElementById("studentSearch");
 
   let currentPermitId = null;
+  let allPermits = []; // Store all permits for filtering
 
   async function renderTable() {
     try {
@@ -22,23 +24,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const permits = result.permits;
-      permitTableBody.innerHTML = "";
+      allPermits = result.permits;
+      displayPermits(allPermits);
+    } catch (err) {
+      permitTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Error connecting to server.</td></tr>`;
+    }
+  }
 
-      if (permits.length === 0) {
-        permitTableBody.innerHTML = `
-          <tr>
-            <td colspan="5" style="text-align: center;">No permit requests found.</td>
-          </tr>
-        `;
-        return;
-      }
+  function displayPermits(permits) {
+    permitTableBody.innerHTML = "";
 
-      permits.forEach((permit) => {
-        const tr = document.createElement("tr");
-        const statusClass = `status-${permit.status.toLowerCase()}`;
+    if (permits.length === 0) {
+      permitTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center;">No permit requests found.</td>
+        </tr>
+      `;
+      return;
+    }
 
-        tr.innerHTML = `
+    permits.forEach((permit) => {
+      const tr = document.createElement("tr");
+      const statusClass = `status-${permit.status.toLowerCase()}`;
+
+      tr.innerHTML = `
           <td>${permit.student_id}</td>
           <td>${permit.permit_type}</td>
           <td>${permit.event_date}</td>
@@ -48,32 +57,40 @@ document.addEventListener("DOMContentLoaded", () => {
             <button class="delete-btn" data-id="${permit.id}">Delete</button>
           </td>
         `;
-        permitTableBody.appendChild(tr);
-      });
+      permitTableBody.appendChild(tr);
+    });
 
-      // Add event listeners
-      document.querySelectorAll(".view-btn").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          const id = parseInt(e.target.getAttribute("data-id"));
-          openViewModal(id, permits);
-        });
+    // Add event listeners
+    document.querySelectorAll(".view-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const id = parseInt(e.target.getAttribute("data-id"));
+        openViewModal(id, permits);
       });
+    });
 
-      document.querySelectorAll(".delete-btn").forEach((btn) => {
-        btn.addEventListener("click", async (e) => {
-          const id = e.target.getAttribute("data-id");
-          if (
-            confirm(
-              "Are you sure you want to delete this permit and all associated files?",
-            )
-          ) {
-            await deletePermit(id);
-          }
-        });
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        const id = e.target.getAttribute("data-id");
+        if (
+          confirm(
+            "Are you sure you want to delete this permit and all associated files?",
+          )
+        ) {
+          await deletePermit(id);
+        }
       });
-    } catch (err) {
-      permitTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Error connecting to server.</td></tr>`;
-    }
+    });
+  }
+
+  // Search functionality
+  if (studentSearch) {
+    studentSearch.addEventListener("input", (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const filtered = allPermits.filter((p) =>
+        p.student_id.toLowerCase().includes(term),
+      );
+      displayPermits(filtered);
+    });
   }
 
   async function deletePermit(id) {

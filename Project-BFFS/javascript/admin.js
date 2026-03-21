@@ -4,116 +4,89 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const userTableBody = document.getElementById("userTableBody");
-  const editModal = document.getElementById("editModal");
-  const editUsernameInput = document.getElementById("editUsername");
-  const editPasswordInput = document.getElementById("editPassword");
-  const saveUserBtn = document.getElementById("saveUserBtn");
-  const cancelEditBtn = document.getElementById("cancelEditBtn");
+  const userSearch = document.getElementById("userSearch");
+  const gradeFilter = document.getElementById("gradeFilter");
 
-  let currentEditingUser = null;
+  let allUsers = [];
 
-  function loadUsers() {
-    const raw = localStorage.getItem("accounts");
-    if (!raw) return [];
+  async function loadUsers() {
     try {
-      return JSON.parse(raw);
-    } catch {
-      return [];
+      const response = await fetch("../backend/api/get_users.php");
+      const result = await response.json();
+
+      if (result.success) {
+        allUsers = result.users;
+        renderTable(allUsers);
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      alert("Error connecting to server.");
     }
   }
 
-  function saveUsers(accounts) {
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-  }
-
-  function renderTable() {
-    const accounts = loadUsers();
+  function renderTable(users) {
     userTableBody.innerHTML = "";
 
-    accounts.forEach((acc, index) => {
-      // Don't show admin accounts for deletion or editing here for safety
-      if (acc.isAdmin) return;
-
+    users.forEach((acc) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${acc.user}</td>
-        <td>${acc.pass}</td>
-        <td>Student</td>
+        <td>${acc.student_id}</td>
+        <td>${acc.grade_level || "N/A"}</td>
+        <td>${acc.role.charAt(0).toUpperCase() + acc.role.slice(1)}</td>
         <td class="action-btns">
-          <button class="edit-btn" data-index="${index}">Edit</button>
-          <button class="delete-btn" data-index="${index}">Delete</button>
+          ${acc.role !== "admin" ? `<button class="delete-btn" data-id="${acc.id}">Delete</button>` : '<span style="color: #999; font-size: 12px;">Protected</span>'}
         </td>
       `;
       userTableBody.appendChild(tr);
     });
 
-    // Add event listeners for edit and delete buttons
-    document.querySelectorAll(".edit-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const index = e.target.getAttribute("data-index");
-        const account = accounts[index];
-        openEditModal(account, index);
-      });
-    });
-
+    // Add event listeners for delete buttons
     document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const index = e.target.getAttribute("data-index");
+      btn.addEventListener("click", async (e) => {
+        const id = e.target.getAttribute("data-id");
         if (confirm("Are you sure you want to delete this account?")) {
-          deleteUser(index);
+          await deleteUser(id);
         }
       });
     });
   }
 
-  function openEditModal(account, index) {
-    currentEditingUser = { ...account, index };
-    editUsernameInput.value = account.user;
-    editPasswordInput.value = account.pass;
-    editModal.style.display = "block";
-  }
-
-  function closeEditModal() {
-    editModal.style.display = "none";
-    currentEditingUser = null;
-  }
-
-  function deleteUser(index) {
-    const accounts = loadUsers();
-    accounts.splice(index, 1);
-    saveUsers(accounts);
-    renderTable();
-  }
-
-  saveUserBtn.addEventListener("click", () => {
-    if (!currentEditingUser) return;
-
-    const newUsername = editUsernameInput.value.trim();
-    const newPassword = editPasswordInput.value.trim();
-
-    if (!newUsername || !newPassword) {
-      alert("Please fill in both fields.");
-      return;
+  async function deleteUser(id) {
+    try {
+      const response = await fetch("../backend/api/delete_user.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert(result.message);
+        loadUsers();
+      } else {
+        alert(result.message);
+      }
+    } catch (err) {
+      alert("Error connecting to server.");
     }
+  }
 
-    const accounts = loadUsers();
-    accounts[currentEditingUser.index].user = newUsername;
-    accounts[currentEditingUser.index].pass = newPassword;
+  function filterUsers() {
+    const term = userSearch.value.toLowerCase().trim();
+    const grade = gradeFilter.value;
 
-    saveUsers(accounts);
-    closeEditModal();
-    renderTable();
-  });
+    const filtered = allUsers.filter((u) => {
+      const matchesSearch = u.student_id.toLowerCase().includes(term);
+      const matchesGrade = grade === "" || u.grade_level === grade;
+      return matchesSearch && matchesGrade;
+    });
 
-  cancelEditBtn.addEventListener("click", closeEditModal);
+    renderTable(filtered);
+  }
 
-  // Close modal when clicking outside
-  window.addEventListener("click", (e) => {
-    if (e.target === editModal) {
-      closeEditModal();
-    }
-  });
+  if (userSearch) userSearch.addEventListener("input", filterUsers);
+  if (gradeFilter) gradeFilter.addEventListener("change", filterUsers);
 
-  // Initial render
-  renderTable();
+  // Initial load
+  loadUsers();
 });

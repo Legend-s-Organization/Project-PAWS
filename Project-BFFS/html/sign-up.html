@@ -1,36 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>NU Project PAWS - Sign Up</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Global stylesheet -->
-  <link rel="stylesheet" href="../css/style.css">
-  <!-- Page-specific stylesheet -->
-  <link rel="stylesheet" href="../css/pages/sign-up.css">
-</head>
-<body class="login-body">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NU Project PAWS - Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Global stylesheet -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <!-- Page-specific stylesheet -->
+    <link rel="stylesheet" href="../css/pages/sign-up.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-container">
+      <div class="login-card">
+        <img src="../images/nu_logo.png" class="login-logo" alt="NU Logo" />
+        <h2>Create Account</h2>
+        <p>Fill in the details below to register</p>
 
-  <div class="login-container">
-    <div class="login-card">
-      <img src="../images/nu_logo.png" class="login-logo" alt="NU Logo">
-      <h2>Create Account</h2>
-      <p>Fill in the details below to register</p>
+        <form id="signupForm">
+          <input
+            type="text"
+            id="newUsername"
+            placeholder="Choose a Student ID"
+            required
+          />
 
-      <form id="signupForm">
-        <input type="text" id="newUsername" placeholder="Choose a Student ID" required>
-        <input type="password" id="newPassword" placeholder="Choose a Password" required>
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+          <select
+            id="gradeLevel"
+            style="
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 15px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              background: white;
+            "
+            required
+          >
+            <option value="" disabled selected>Select Grade Level</option>
+            <option value="Senior High">Senior High</option>
+            <option value="College">College</option>
+          </select>
 
-        <button type="submit">Sign Up</button>
-        <p class="error" id="signupError"></p>
-        <p class="success" id="signupSuccess"></p>
-      </form>
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="Choose a Password"
+            required
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          />
 
-      <a href="../index.html" class="forgot">Already have an account? Log in</a>
+          <button type="submit">Sign Up</button>
+          <p class="error" id="signupError"></p>
+          <p class="success" id="signupSuccess"></p>
+        </form>
+
+        <a href="../index.html" class="forgot"
+          >Already have an account? Log in</a
+        >
+      </div>
     </div>
-  </div>
 
-  <script src="../javascript/index.js"></script>
-</body>
+    <script src="../javascript/index.js"></script>
+  </body>
 </html>

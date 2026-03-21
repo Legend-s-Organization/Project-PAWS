@@ -68,6 +68,11 @@ function saveAccounts(accounts) {
   localStorage.setItem("accounts", JSON.stringify(accounts));
 }
 
+function getApiPath() {
+  return inHtmlFolder() ? "../backend/api/" : "backend/api/";
+}
+const apiPath = getApiPath();
+
 /* ========================================================
    LOGIN PAGE
 ======================================================== */
@@ -92,7 +97,7 @@ if (loginForm) {
     const enteredPass = passwordField.value;
 
     try {
-      const response = await fetch("../backend/api/login.php", {
+      const response = await fetch(apiPath + "login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: enteredUser, password: enteredPass }),
@@ -136,7 +141,7 @@ if (adminLoginForm) {
     const pass = adminPassField.value;
 
     try {
-      const response = await fetch("../backend/api/login.php", {
+      const response = await fetch(apiPath + "login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user, password: pass }),
@@ -182,11 +187,12 @@ if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const user = newUserField.value.trim();
+    const grade = document.getElementById("gradeLevel").value;
     const pass = newPassField.value;
     const confirm = confirmPassField.value;
 
-    if (!user || !pass) {
-      signupError.textContent = "Please provide a Student ID and Password.";
+    if (!user || !pass || !grade) {
+      signupError.textContent = "Please provide all details.";
       signupSuccess.textContent = "";
       return;
     }
@@ -197,10 +203,14 @@ if (signupForm) {
     }
 
     try {
-      const response = await fetch("../backend/api/signup.php", {
+      const response = await fetch(apiPath + "signup.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: user, password: pass }),
+        body: JSON.stringify({
+          username: user,
+          password: pass,
+          grade_level: grade,
+        }),
       });
 
       const result = await response.json();
@@ -315,6 +325,11 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = pageBase + "permits.html";
       });
     }
+    if (text === "My Activity") {
+      card.parentElement.addEventListener("click", () => {
+        window.location.href = pageBase + "my-activity.html";
+      });
+    }
     if (text === "Admin Control") {
       card.parentElement.addEventListener("click", () => {
         window.location.href = "admin-users.html";
@@ -377,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("endorsement", endorsement);
 
       try {
-        const response = await fetch("../backend/api/submit_permit.php", {
+        const response = await fetch(apiPath + "submit_permit.php", {
           method: "POST",
           body: formData,
         });
@@ -461,6 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <ul class="side-menu-links">
         <li><a href="${homeLink}">Home</a></li>
         <li><a href="profile.html">Profile</a></li>
+        ${!isAdmin ? '<li><a href="my-activity.html">My Activity</a></li>' : ""}
         ${isAdmin ? '<li><a href="admin-users.html">User Management</a></li>' : ""}
         ${isAdmin ? '<li><a href="admin-permits.html">Permit Management</a></li>' : ""}
         <li><a href="#" id="sideLogoutBtn">Logout</a></li>

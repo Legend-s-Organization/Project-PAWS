@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     student_id VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('student', 'admin') DEFAULT 'student',
+    grade_level ENUM('Senior High', 'College') NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

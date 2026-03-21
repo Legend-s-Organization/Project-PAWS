@@ -57,11 +57,42 @@
           <h2>User Account Management</h2>
           <p>Manage student accounts registered in the system.</p>
 
+          <div
+            class="search-filters"
+            style="
+              margin-bottom: 20px;
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+            "
+          >
+            <input
+              type="text"
+              id="userSearch"
+              placeholder="Search Student ID..."
+              style="
+                padding: 8px;
+                flex: 1;
+                min-width: 200px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+              "
+            />
+            <select
+              id="gradeFilter"
+              style="padding: 8px; border: 1px solid #ccc; border-radius: 4px"
+            >
+              <option value="">All Grade Levels</option>
+              <option value="Senior High">Senior High</option>
+              <option value="College">College</option>
+            </select>
+          </div>
+
           <table class="admin-table">
             <thead>
               <tr>
                 <th>Student ID</th>
-                <th>Password</th>
+                <th>Grade Level</th>
                 <th>Role</th>
                 <th>Actions</th>
               </tr>

@@ -2,14 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>NU Project PAWS - Home</title>
+    <title>NU Project PAWS - My Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Master stylesheet -->
     <link rel="stylesheet" href="../css/style.css" />
+    <!-- Admin stylesheet (reusing table styles) -->
+    <link rel="stylesheet" href="../css/pages/admin.css" />
   </head>
   <body>
     <div class="page-wrapper">
-      <!-- Side Menu (Empty) -->
+      <!-- Side Menu -->
       <div id="sideMenu" class="side-menu"></div>
       <div id="menuOverlay" class="menu-overlay"></div>
 
@@ -41,60 +43,47 @@
         </div>
       </header>
 
-      <!-- Page Content -->
       <main class="page-content">
-        <section class="hero">
-          <div class="hero-slideshow">
-            <div
-              class="hero-slide active"
-              style="background-image: url(&quot;../images/bg_img.png&quot;)"
-            ></div>
-            <div
-              class="hero-slide"
-              style="
-                background-image: url(&quot;../images/nueastortigas_bg.png&quot;);
-              "
-            ></div>
-            <div
-              class="hero-slide"
-              style="
-                background-image: url(&quot;../images/nueofamily_bg.png&quot;);
-              "
-            ></div>
+        <div class="admin-container">
+          <div class="back-btn-container">
+            <button class="back-btn" onclick="location.href = 'home.html'">
+              ← Back to Home
+            </button>
           </div>
-          <div class="hero-content">
-            <h1>FMO Service Portal</h1>
-            <p>
-              The official Facilities Management Office platform for
-              Nationalians. Streamlining your school permit and facility
-              requests.
-            </p>
-          </div>
-          <!-- Manual controls -->
-          <div class="hero-controls">
-            <button class="hero-btn active" data-slide="0"></button>
-            <button class="hero-btn" data-slide="1"></button>
-            <button class="hero-btn" data-slide="2"></button>
-          </div>
-        </section>
 
-        <section class="services">
-          <div class="service-cards">
-            <!-- Permit Card -->
-            <div class="card">
-              <div class="icon">📄</div>
-              <p class="card-title">Permits</p>
-            </div>
+          <h2>My Permit Activity</h2>
+          <p>Track the status of your submitted permit requests.</p>
 
-            <!-- My Activity Card -->
-            <div class="card">
-              <div class="icon">📊</div>
-              <p class="card-title">My Activity</p>
-            </div>
-            <!-- Additional cards can be added here -->
-          </div>
-        </section>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Event Date</th>
+                <th>Submitted On</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <!-- Activity will be populated here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
       </main>
+
+      <!-- View Activity Details Modal -->
+      <div id="viewModal" class="modal">
+        <div class="modal-content" style="max-width: 500px">
+          <h3>Permit Request Details</h3>
+          <div id="permitDetails" class="permit-details-grid">
+            <!-- Details populated by JS -->
+          </div>
+
+          <div class="status-actions">
+            <button id="closeViewBtn" class="cancel-btn">Close</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Footer -->
       <footer>
@@ -109,10 +98,7 @@
               All Rights Reserved © 2026 National University
             </div>
             <hr class="footer-divider" />
-            <div class="footer-bottom">
-              NU Online Services is a portal of all online applications National
-              University offers.
-            </div>
+            <div class="footer-bottom">NATIONAL UNIVERSITY ONLINE PORTAL</div>
           </div>
           <div class="footer-right">
             <h4>Follow Us</h4>
@@ -121,6 +107,10 @@
         </div>
       </footer>
     </div>
+
+    <!-- Main JS for protection/logout -->
     <script src="../javascript/index.js"></script>
+    <!-- My Activity JS -->
+    <script src="../javascript/my-activity.js"></script>
   </body>
 </html>
