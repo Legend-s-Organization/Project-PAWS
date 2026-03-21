@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td class="${statusClass}">${permit.status}</td>
           <td class="action-btns">
             <button class="view-btn" data-id="${permit.id}">View Details</button>
+            <button class="delete-btn" data-id="${permit.id}">Delete</button>
           </td>
         `;
         permitTableBody.appendChild(tr);
@@ -57,8 +58,42 @@ document.addEventListener("DOMContentLoaded", () => {
           openViewModal(id, permits);
         });
       });
+
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          const id = e.target.getAttribute("data-id");
+          if (
+            confirm(
+              "Are you sure you want to delete this permit and all associated files?",
+            )
+          ) {
+            await deletePermit(id);
+          }
+        });
+      });
     } catch (err) {
       permitTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Error connecting to server.</td></tr>`;
+    }
+  }
+
+  async function deletePermit(id) {
+    try {
+      const response = await fetch("../backend/api/delete_permit.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(result.message);
+        renderTable();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      alert("Error connecting to server.");
     }
   }
 
