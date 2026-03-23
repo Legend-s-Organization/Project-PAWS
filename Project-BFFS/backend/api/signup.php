@@ -2,6 +2,11 @@
 /**********************************************************
  * SECURE SIGNUP API - UNIVERSITY PERMIT SYSTEM
  **********************************************************/
+// Temporarily enable error reporting to debug the 500 error
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
 require_once '../config/db.php';
 

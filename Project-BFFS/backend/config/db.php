@@ -29,7 +29,12 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    // In production, you would hide the error message
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    // Return a JSON error instead of throwing a fatal exception that causes a 500 error
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Connection failed: ' . $e->getMessage()
+    ]);
+    exit;
 }
 ?>
