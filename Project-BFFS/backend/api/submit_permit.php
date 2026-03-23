@@ -32,7 +32,7 @@ try {
 
     $files_to_upload = [
         'request_form' => $_FILES['request_form'] ?? null,
-        'student_id'   => $_FILES['student_id'] ?? null,
+        'student_id'   => $_FILES['student_id_file'] ?? null,
         'endorsement'  => $_FILES['endorsement'] ?? null
     ];
 
